@@ -1,0 +1,55 @@
+{
+  "indemnification_margaret_ellison.txt": {
+    "type": "indemnification_agreement",
+    "party": "Margaret Ellison",
+    "has_relinquish_control_carveout": true
+  },
+  "indemnification_david_okafor.txt": {
+    "type": "indemnification_agreement",
+    "party": "David Okafor",
+    "has_relinquish_control_carveout": true
+  },
+  "indemnification_priya_raman.txt": {
+    "type": "indemnification_agreement",
+    "party": "Priya Raman",
+    "has_relinquish_control_carveout": false
+  },
+  "indemnification_thomas_vance.txt": {
+    "type": "indemnification_agreement",
+    "party": "Thomas Vance",
+    "has_relinquish_control_carveout": true
+  },
+  "indemnification_susan_cho.txt": {
+    "type": "indemnification_agreement",
+    "party": "Susan Cho",
+    "has_relinquish_control_carveout": false
+  },
+  "employment_robert_iglesias.txt": {
+    "type": "employment_agreement",
+    "party": "Robert Iglesias",
+    "has_relinquish_control_carveout": false
+  },
+  "employment_anita_desai.txt": {
+    "type": "employment_agreement",
+    "party": "Anita Desai",
+    "has_relinquish_control_carveout": false
+  },
+  "merger_agreement_coastal.txt": {
+    "type": "merger_agreement",
+    "party": "Coastal Devices stockholders",
+    "has_relinquish_control_carveout": true,
+    "note": "Different sense of 'relinquish control' \u2014 tests concept vs. keyword."
+  },
+  "mutual_nda_vantage.txt": {
+    "type": "nda",
+    "party": "Vantage Analytics",
+    "has_relinquish_control_carveout": false,
+    "note": "Decoy \u2014 semantically near, wrong answer."
+  },
+  "commercial_lease_harborpoint.txt": {
+    "type": "lease",
+    "party": "Harbor Point",
+    "has_relinquish_control_carveout": false,
+    "note": "Decoy \u2014 mentions change in control re: assignment only."
+  }
+}

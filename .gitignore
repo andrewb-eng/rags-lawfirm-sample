@@ -1,0 +1,15 @@
+# Secrets
+.env
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Built artifacts and corpora, rebuildable or too large for git
+index_store/
+legal_corpus/
+*.zip
+
+# macOS
+.DS_Store

@@ -7,6 +7,28 @@ from pathlib import Path
 # first index build is the only hub traffic).
 os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
 
+
+def _load_dotenv(path: Path) -> None:
+    """Minimal .env loader: KEY=VALUE lines feed os.environ defaults.
+
+    Real environment variables always win, values are never logged, and the
+    file is optional — this only saves the `export ANTHROPIC_API_KEY=...`
+    step before `python main.py ask`.
+    """
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip().removeprefix("export ")
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key, value = key.strip(), value.strip().strip("'\"")
+        if key:
+            os.environ.setdefault(key, value)
+
+
+_load_dotenv(Path(__file__).resolve().parent / ".env")
+
 PROJECT_ROOT = Path(__file__).resolve().parent
 CORPUS_DIR = PROJECT_ROOT / "legal_corpus"
 INDEX_DIR = PROJECT_ROOT / "index_store"
@@ -25,7 +47,7 @@ EXCLUDE_FILES = {"README.txt"}
 
 # Embeddings are computed locally; only generate.py talks to the network.
 EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-CLAUDE_MODEL = os.environ.get("RAG_CLAUDE_MODEL", "claude-opus-4-8")
+CLAUDE_MODEL = os.environ.get("RAG_CLAUDE_MODEL", "claude-opus-5")
 
 COLLECTION_NAME = "legal_chunks"
 

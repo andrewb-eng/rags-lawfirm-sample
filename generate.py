@@ -94,13 +94,16 @@ def answer(question: str, chunks: list[dict]) -> str:
     content = [_document_block(c) for c in chunks]
     content.append({"type": "text", "text": question})
 
-    response = client.messages.create(
+    # Streaming keeps long document-heavy requests clear of HTTP timeouts;
+    # get_final_message() yields the same Message shape create() would.
+    with client.messages.stream(
         model=config.CLAUDE_MODEL,
         max_tokens=16000,
         thinking={"type": "adaptive"},
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": content}],
-    )
+    ) as stream:
+        response = stream.get_final_message()
     if response.stop_reason == "refusal":
         return "The model declined to answer this request (stop_reason: refusal)."
     return _render(response)

@@ -6,9 +6,12 @@
 __pycache__/
 *.py[cod]
 
-# Built artifacts and corpora, rebuildable or too large for git
+# Built artifacts and bulk corpora, rebuildable or too large for git.
+# The synthetic needle set (legal_corpus/*.txt) IS committed — it is fixture
+# data the eval depends on; only the fetched CUAD corpus stays out of git.
 index_store/
-legal_corpus/
+legal_corpus/cuad/
+data/
 *.zip
 
 # macOS

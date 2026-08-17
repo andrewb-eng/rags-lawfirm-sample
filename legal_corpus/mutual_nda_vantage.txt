@@ -1,0 +1,37 @@
+MUTUAL NONDISCLOSURE AGREEMENT
+
+This Mutual Nondisclosure Agreement (this "NDA") is entered into as of
+September 9, 2020 by and between Northgate Instruments Inc. and Vantage
+Analytics, a Washington corporation, in connection with discussions
+regarding a potential commercial data-services engagement.
+
+1. Confidential Information. Each party may disclose to the other party
+nonpublic business, technical, or financial information that is
+designated confidential or that reasonably should be understood to be
+confidential given the nature of the information and the circumstances
+of disclosure.
+
+2. Obligations. The receiving party shall use the disclosing party's
+confidential information solely to evaluate the potential engagement,
+shall protect it with at least the degree of care it uses for its own
+confidential information, and shall not disclose it to any third party
+other than employees and advisors who need to know it and are bound by
+obligations at least as protective as this NDA.
+
+3. Ownership. Each party retains all right, title, and interest in and
+to its confidential information. No party relinquishes ownership or
+control of its confidential information by disclosing it under this
+NDA, and no license is granted except as expressly stated herein.
+
+4. Term. The obligations in this NDA apply for three years from
+the date of disclosure. Either party may terminate discussions at any
+time; the confidentiality obligations survive termination.
+
+5. Assignment. Neither party may assign this NDA without the prior
+written consent of the other party.
+
+6. Governing Law. This NDA shall be governed by the laws of the State of
+Washington.
+
+NORTHGATE INSTRUMENTS INC.        VANTAGE ANALYTICS
+By: /s/ Marcus Feld, CEO          By: /s/ Lena Voss, President

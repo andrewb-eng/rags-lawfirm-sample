@@ -1,8 +1,9 @@
-"""Stage 1 — load: read every .txt in the corpus folder.
+"""Stage 1 — load: read every .txt under the corpus folder, recursively.
 
-Each document becomes {"source": <filename>, "text": <raw text>}. The filename
-is the only metadata captured here; party extraction happens in chunk.py where
-the text is parsed.
+Each document becomes {"source": <corpus-relative path>, "text": <raw text>},
+so the synthetic needle set (`foo.txt`) and the bulk corpus (`cuad/bar.txt`)
+coexist in one namespace. Party extraction happens in chunk.py where the text
+is parsed.
 """
 
 from pathlib import Path
@@ -15,13 +16,13 @@ def load_documents(corpus_dir: Path = config.CORPUS_DIR) -> list[dict]:
         raise FileNotFoundError(f"corpus directory not found: {corpus_dir}")
 
     docs = []
-    for path in sorted(corpus_dir.glob("*.txt")):
+    for path in sorted(corpus_dir.rglob("*.txt")):
         if path.name in config.EXCLUDE_FILES:
             continue
         text = path.read_text(encoding="utf-8")
         if not text.strip():
             continue
-        docs.append({"source": path.name, "text": text})
+        docs.append({"source": path.relative_to(corpus_dir).as_posix(), "text": text})
 
     if not docs:
         raise FileNotFoundError(f"no .txt documents found in {corpus_dir}")

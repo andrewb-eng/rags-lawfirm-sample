@@ -26,10 +26,13 @@ CLAUDE_MODEL = os.environ.get("RAG_CLAUDE_MODEL", "claude-opus-4-8")
 
 COLLECTION_NAME = "legal_chunks"
 
-# Chunking: documents in this corpus are ~1 KB, so chunks are paragraph packs.
-CHUNK_TARGET_CHARS = 600  # merge adjacent paragraphs up to roughly this size
-CHUNK_MAX_CHARS = 1500  # hard-split anything longer than this
-CHUNK_OVERLAP_CHARS = 150  # overlap used only for hard splits
+# Chunking. Sizes are governed by the embedder: all-MiniLM-L6-v2 truncates at
+# 256 wordpieces (~900-1200 chars), so the [header] + body of a chunk must fit
+# that window — bigger chunks would be silently cut off in embedding space
+# (BM25 still sees the full text).
+CHUNK_TARGET_CHARS = 700  # pack adjacent pieces up to roughly this size
+CHUNK_MAX_CHARS = 1200  # split anything longer, at sentence boundaries
+CHUNK_OVERLAP_CHARS = 150  # overlap used only for no-sentence-break splits
 
 # Retrieval
 CANDIDATE_DEPTH = 32  # ranked-list depth per retriever before fusion

@@ -29,6 +29,22 @@ def load_documents(corpus_dir: Path = config.CORPUS_DIR) -> list[dict]:
     return docs
 
 
+def corpus_fingerprint(corpus_dir: Path = config.CORPUS_DIR) -> str:
+    """Cheap corpus identity: hash of (path, size) pairs, no file reads.
+
+    Catches documents being added, removed, or resized since the index was
+    built — enough to warn that `main.py index` needs a re-run.
+    """
+    import hashlib
+
+    h = hashlib.sha256()
+    for path in sorted(corpus_dir.rglob("*.txt")):
+        if path.name in config.EXCLUDE_FILES:
+            continue
+        h.update(f"{path.relative_to(corpus_dir).as_posix()}:{path.stat().st_size}\n".encode())
+    return h.hexdigest()[:16]
+
+
 if __name__ == "__main__":
     documents = load_documents()
     print(f"Loaded {len(documents)} documents from {config.CORPUS_DIR}:")

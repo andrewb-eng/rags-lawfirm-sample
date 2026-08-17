@@ -25,5 +25,7 @@ answer_key.json = ground truth for scoring retrieval precision/recall.
 SUGGESTED TEST QUERIES:
   - "Which parties relinquished control of their shares?"
   - "Find the change-in-control carve-out for David Okafor."
-  - "Does the NDA contain a change of control provision?"  (answer: no, only lease/employment do)
+  - "Does the Vantage Analytics NDA contain a change of control provision?"
+    (answer: no, only lease/employment do; the query names its target because
+    the corpus also holds 500+ real contracts with many NDAs among them)
   - "Which documents involve the Coastal Devices merger?"

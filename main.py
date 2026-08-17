@@ -14,14 +14,24 @@ import config
 
 
 def cmd_index(_args) -> int:
+    import time
+
     from chunk import chunk_documents
     from embed import build_index
-    from load import load_documents
+    from load import corpus_fingerprint, load_documents
 
+    t0 = time.time()
     docs = load_documents()
     chunks = chunk_documents(docs)
-    count = build_index(chunks)
-    print(f"Indexed {count} chunks from {len(docs)} documents into {config.INDEX_DIR}")
+    print(f"Chunked {len(docs)} documents into {len(chunks):,} chunks "
+          f"({time.time() - t0:.1f}s); embedding...")
+    count = build_index(chunks, len(docs), corpus_fingerprint())
+
+    from retrieve import Retriever
+
+    Retriever()  # builds and caches the BM25 index while we're at it
+    print(f"Indexed {count:,} chunks from {len(docs)} documents into "
+          f"{config.INDEX_DIR} in {time.time() - t0:.1f}s")
     return 0
 
 
@@ -36,7 +46,7 @@ def cmd_ask(args) -> int:
 
     print("Retrieved chunks:")
     for i, c in enumerate(chunks, 1):
-        print(f"  {i}. {c['id']}  (party: {c['party'] or '-'}, rrf={c['score']})")
+        print(f"  {i}. {c['id']}  (party: {c['party'] or '-'}, score={c['score']})")
         if args.show_chunks:
             print("     " + " ".join(c["text"].split())[:200])
     print()
@@ -66,7 +76,7 @@ def cmd_ask(args) -> int:
 def cmd_eval(args) -> int:
     from eval import main as eval_main
 
-    return eval_main(k=args.k)
+    return eval_main(k=args.k, skip_scale=args.skip_scale)
 
 
 def main() -> int:
@@ -88,6 +98,8 @@ def main() -> int:
     ev = sub.add_parser("eval", help="score retrieval against answer_key.json")
     ev.add_argument("-k", type=int, default=config.DEFAULT_TOP_K_DOCS,
                     help="document-level cutoff (default %(default)s)")
+    ev.add_argument("--skip-scale", action="store_true",
+                    help="run only the needle eval, not the CUAD scale eval")
 
     args = parser.parse_args()
     return {"index": cmd_index, "ask": cmd_ask, "eval": cmd_eval}[args.command](args)

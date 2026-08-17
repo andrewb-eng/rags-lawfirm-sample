@@ -12,7 +12,10 @@ CORPUS_DIR = PROJECT_ROOT / "legal_corpus"
 INDEX_DIR = PROJECT_ROOT / "index_store"
 CHUNKS_FILE = INDEX_DIR / "chunks.jsonl"
 CHROMA_DIR = INDEX_DIR / "chroma"
+MANIFEST_FILE = INDEX_DIR / "manifest.json"  # written last; absence = stale build
+BM25_CACHE_FILE = INDEX_DIR / "bm25.pkl"
 ANSWER_KEY_FILE = PROJECT_ROOT / "answer_key.json"
+CUAD_ANNOTATIONS_FILE = PROJECT_ROOT / "data" / "cuad_annotations.json"
 
 # legal_corpus/ contains a copy of README.txt, which describes the test setup
 # and literally spells out the expected answers. Indexing it would contaminate
@@ -34,8 +37,20 @@ CHUNK_TARGET_CHARS = 700  # pack adjacent pieces up to roughly this size
 CHUNK_MAX_CHARS = 1200  # split anything longer, at sentence boundaries
 CHUNK_OVERLAP_CHARS = 150  # overlap used only for no-sentence-break splits
 
+# Indexing at scale
+EMBED_BATCH_SIZE = 128  # sentence-transformers encode batch
+CHROMA_ADD_BATCH = 5000  # ceiling per collection.add (Chroma rejects huge adds)
+
 # Retrieval
-CANDIDATE_DEPTH = 32  # ranked-list depth per retriever before fusion
-RRF_K = 60  # standard reciprocal-rank-fusion constant
+CANDIDATE_DEPTH = 64  # ranked-list depth per retriever before fusion
+DOC_CANDIDATE_DEPTH = 200  # deeper pool for document-level ranking: near-dupe
+# documents interleave many chunks at the top, so doc rankings need to see
+# past them (see Retriever.retrieve_docs)
+HYBRID_ALPHA = 0.5  # dense weight in relative-score fusion (1-alpha = BM25);
+# see retrieve.py's docstring for why score fusion replaced rank fusion
 DEFAULT_TOP_K_CHUNKS = 6  # chunks handed to the generator
 DEFAULT_TOP_K_DOCS = 5  # document-level cutoff used by the eval
+
+# Scale eval (CUAD-derived; runs when the bulk corpus is indexed)
+SCALE_EVAL_N = 100  # queries synthesized from contract annotations
+SCALE_RECALL_TARGET = 0.8  # recall@DEFAULT_TOP_K_DOCS required to pass

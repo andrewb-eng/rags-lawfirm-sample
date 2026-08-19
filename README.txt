@@ -1,6 +1,7 @@
 SYNTHETIC LEGAL CORPUS — for RAG retrieval testing
 ==================================================
-All content is invented. No real people/companies/matters.
+All content is invented. No real people/companies/matters. Based
+off my deployed RAGs system for a law firm. 
 
 WHY THIS SET IS SHAPED THIS WAY (the hard cases to test against):
 
